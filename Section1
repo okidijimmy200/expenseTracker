@@ -1,0 +1,37 @@
+Integrating Data Visualization with an Expense Tracking Application
+
+visualization features by covering the following topics:
+Introducing MERN Expense Tracker
+Adding expense records
+Visualizing expense data over time
+
+Lecture 1:
+Introducing MERN Expense Tracker
+--The MERN Expense Tracker application will allow users to keep track of their day-today
+expenses. Users who are signed in to their accounts will be able to add their
+expense records with details such as expense description, category, amount, and
+when the given expense was incurred or paid. The application will store these
+expense records and extract meaningful data patterns to give the user a visual
+representation of how their expense habits fare as time progresses.
+
+--We will add new React components to implement views for creating expense records,
+listing and modifying already recorded expenses, and displaying reports giving
+insights into expenses incurred by a user over time. We will also modify existing
+components such as the Home component to render an overview of current expenses
+by a user.
+
+Adding expense records::
+--In the MERN Expense Tracker application, a user who is signed in will be able to
+create and manage their expense records. To enable these features of adding and
+managing expense records, we will need to define how to store expense details, and
+implement the full-stack slices that will let users create new expenses, view these
+expenses, and update or delete existing expenses on the application.
+
+Lecture 2:
+Defining an Expense model::
+---We will implement a Mongoose model to define an Expense model for storing the
+details of each expense record.
+--The Expense schema in this model will have simple fields to store details about each
+expense, such as a title, the amount, category, and date when it was incurred, along
+with a reference to the user who created the record.
+
