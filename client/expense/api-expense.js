@@ -20,8 +20,13 @@ where the user can enter details of the new expense and save it on the applicati
       }
   }
   
-  
+  /**The API to retrieve expenses recorded by a specific user can be used in the frontend
+to retrieve and display the expenses to the end user. To fetch this API in the frontend,
+we will add a corresponding listByUser method in api-expense.js */
   const listByUser = async (params, credentials, signal) => {
+    /**In this method, before making the request to the list expenses API, we form the query
+string containing the date range with the queryString library. Then, this query
+string is attached to the request URL */
     const query = queryString.stringify(params)
     try {
       let response = await fetch('/api/expenses?'+query, {

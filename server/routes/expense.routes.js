@@ -23,6 +23,8 @@ router.route('/api/expenses')
 /**A POST request to this route at /api/expenses will first ensure that the requesting user is signed in with the requireSignin method from the auth controllers, before
 invoking the create method to add a new expense record in the database */
   .post(authCtrl.requireSignin, expenseCtrl.create)
+  /**A GET request to this route will first ensure that the requesting user is signed in,
+before invoking the controller method to fetch the expenses from the database users will only be able to view their own expenses. */
   .get(authCtrl.requireSignin, expenseCtrl.listByUser)
 
 router.route('/api/expenses/:expenseId')

@@ -66,3 +66,44 @@ when the expense was incurred, and any additional notes.
 along with a date management library
 
 ************8yarn add @material-ui/pickers @date-io/date-fns@1.x date-fns***************
+
+Lecture 3:
+Listing expenses::
+---In MERN Expense Tracker, users will be able to view the list of expenses that they
+already recorded on the application and incurred within a provided date range.
+
+The expenses by user API::
+--We will implement an API to get the expenses recorded by a specific user and
+incurred between a provided date range.
+
+--we start by gathering the first day and the last day of the date range
+specified in the request query. From the database, we then retrieve the expenses
+incurred by the signed-in user within these dates. The signed-in user is matched
+against the user referenced in the recorded _by field. The find query against the
+Expense collection using these values will return matching expenses sorted by the
+incurred_on field, with the recently incurred expenses listed first.
+
+--This fetch method will be used in the Expenses component to retrieve and show the
+expenses to the user.
+
+The Expenses component::
+--The list of expenses retrieved from the database will be rendered using a React
+component called Expenses. This component, on the initial load, will render the
+expenses incurred by the signed-in user in the current month. In this view, the user
+will also have the option to pick a date range to retrieve expenses incurred within
+specific dates,
+
+Searching by date range::
+--we will add two DatePicker components to collect the first day and the
+last day of the query range, and also add a button to initiate the search,
+--Once the expenses resulting from this new query are received from the server, we set
+it to the state to be rendered in the view.
+
+Rendering expenses::
+--we will add a form to search by date range, before iterating through the resulting expenses array to render individual
+expense details.
+
+Modifying an expense record::
+--Users on MERN Expense Tracker will be able to modify the expenses they have
+already recorded on the application by either updating the details of an expense or
+deleting the expense record altogether

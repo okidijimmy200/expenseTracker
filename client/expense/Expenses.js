@@ -72,8 +72,13 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
+/**The list of expenses retrieved from the database will be rendered using a React component called Expenses. This component, on the initial load, will render the
+expenses incurred by the signed-in user in the current month. In this view, the user will also have the option to pick a date range to retrieve expenses incurred within
+specific dates, */
 export default function Expenses() {
     const classes = useStyles()
+    /**We also initialize the values that are necessary for making this request and for rendering
+the response to be received from the serve */
     const [redirectToSignin, setRedirectToSignin] = useState(false)
     const [saved, setSaved] = useState(false)
     const [error, setError] = useState('')
@@ -82,9 +87,17 @@ export default function Expenses() {
     const date = new Date(), y = date.getFullYear(), m = date.getMonth()
     const [firstDay, setFirstDay] = useState(new Date(y, m, 1))
     const [lastDay, setLastDay] = useState(new Date(y, m + 1, 0))
+    /**use a useEffect hook to make a
+fetch call to the list expenses API in order to retrieve the initial list of expenses */
     useEffect(() => {
         const abortController = new AbortController()
         const signal = abortController.signal
+        /**We first determine the dates of the first day and the last day of the current month.
+These dates are set in the state to be rendered in the search form fields and provided
+as the date range query parameters in the request to the server */
+////////////////////////////////////////////////////////////////////////////////////////////////////
+/**we will only fetch the expenses associated with the current user, we retrieve the signed-in user's auth credentials to be sent with the request. If the request to the server results
+in an error, we will redirect the user to the login page. Otherwise, we will set the received expenses in the state to be rendered in the view. */
         listByUser({firstDay: firstDay, lastDay: lastDay},{t: jwt.token}, signal).then((data) => {
           if (data.error) {
             setRedirectToSignin(true)
@@ -96,6 +109,10 @@ export default function Expenses() {
           abortController.abort()
         }
     }, [])
+    /**When a user interacts with the DatePicker components to select a date, we will
+invoke the handleSearchFieldChange method to get the selected date value. This
+method gets the date value and sets it to either the firstDay or lastDay value in
+the state accordingly */
     const handleSearchFieldChange = name => date => {
         if(name=='firstDay'){
             setFirstDay(date)
@@ -103,6 +120,7 @@ export default function Expenses() {
             setLastDay(date)
         }
     }
+/** searchClicked we make another call to the list expenses API with the new dates sent in the query parameters */
     const searchClicked = () => {
         listByUser({firstDay: firstDay, lastDay: lastDay},{t: jwt.token}).then((data) => {
             if (data.error) {
@@ -150,7 +168,14 @@ export default function Expenses() {
     return (
       <div className={classes.root}>
       <div className={classes.search}>
+        {/* we will add a form to search by date
+range, before iterating through the resulting expenses array to render individual
+expense details. */}
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
+        {/* When a user interacts with the DatePicker components to select a date, we will
+invoke the handleSearchFieldChange method to get the selected date value. This
+method gets the date value and sets it to either the firstDay or lastDay value in
+the state accordingly */}
                 <DatePicker
                     disableFuture
                     format="dd/MM/yyyy"
@@ -171,9 +196,13 @@ export default function Expenses() {
         </MuiPickersUtilsProvider>
         <Button variant="contained" color="secondary" onClick={searchClicked}>GO</Button>
         </div>
-        
+
+        {/*we use map to iterate through the list of expenses retrieved from the database and display each expense record to the end user in a Material-UI
+ExpansionPanel component.  */}
       {expenses.map((expense, index) => {
             return   <span key={index}>
+              {/* In the ExpansionPanel component, we show details of the individual expense record in the Summary section. Then, on the expansion of
+the panel, we will give the user the option to edit details of the expense or delete the expense, */}
         <ExpansionPanel className={classes.panel}>
           <ExpansionPanelSummary
             expandIcon={<Edit />}
@@ -193,6 +222,8 @@ export default function Expenses() {
             </div>
           </ExpansionPanelSummary>
           <Divider/>
+          {/* Users on MERN Expense Tracker will be able to modify the expenses they have already recorded on the application by either updating the details of an expense or
+deleting the expense record altogether they will receive these modification options in the expenses list after expanding to see details of an individual expense in the list */}
           <ExpansionPanelDetails style={{display: 'block'}}>
           <div>
               <TextField label="Title" className={classes.textField} value={expense.title} onChange={handleChange('title', index)} margin="normal"/>

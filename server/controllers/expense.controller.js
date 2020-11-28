@@ -41,7 +41,12 @@ const read = (req, res) => {
     return res.json(req.expense)
 }
 
+/**After the user authentication is confirmed, in the listByUser controller method we query the Expense collection in the database using date range specified in the request and the
+ID of the user who is signed in. */
 const listByUser = async (req, res) => {
+  /**we start by gathering the first day and the last day of the date range specified in the request query. From the database, we then retrieve the expenses
+incurred by the signed-in user within these dates. The signed-in user is matched against the user referenced in the recorded _by field. The find query against the
+Expense collection using these values will return matching expenses sorted by the incurred_on field, with the recently incurred expenses listed first */
   let firstDay = req.query.firstDay
   let lastDay = req.query.lastDay
   try {
