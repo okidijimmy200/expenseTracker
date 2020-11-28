@@ -37,3 +37,27 @@ Lecture 2:
 Rendering the preview of current expenses::
 --To retrieve the expense totals and render these in the view, we can call the current
 month preview API either in a useEffect hook or when a button is clicked on.
+
+Lecture 3:
+Tracking current expenses by category::
+--we will give the user an overview of how much they are currently spending in each expense category in comparison to previous averages. For each
+category, we will display the monthly average based on previous expense data, show the total spent so far in the current month, and show the difference to indicate
+whether they are spending extra or are saving money in the current month.
+
+--To implement this feature, we need to add a backend API that will process the
+existing expense data to return the monthly average along with the total spent in the
+current month for each category, so it can be rendered in a React component. In the
+following sections, we will look at the implementation and integration of this API and
+frontend view to complete this feature to track expenses by category.
+
+The current expenses by category API::
+--We will add an API to the backend that will return the average monthly expenses and
+the total spent in the current month for each expense category. To implement this
+API.
+
+Rendering an overview of expenses per category::
+--Besides informing the user of how much they are spending currently, we can give
+them an idea of how they are doing in comparison to previous expenditures. We can
+tell them whether they are spending more or saving money in the current month for
+each category.
+

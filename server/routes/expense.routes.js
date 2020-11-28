@@ -9,6 +9,8 @@ currentMonthPreview controller method */
 router.route('/api/expenses/current/preview')
   .get(authCtrl.requireSignin, expenseCtrl.currentMonthPreview)
 
+  /**A GET request to this route at '/api/expenses/by/category' will first ensure that the requesting client is a signed-in user, and then it will invoke
+the expenseByCategory controller method */
 router.route('/api/expenses/by/category')
   .get(authCtrl.requireSignin, expenseCtrl.expenseByCategory)
 

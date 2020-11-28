@@ -93,6 +93,8 @@ expensePreview, so the information can be displayed in the view */
         abortController.abort()
       }
   }, [])
+  /**useEffect hook, calls the current expenses by category API to render the average and total values sent by the backend and also
+displays the computed difference between these two values. */
   useEffect(() => {
     const abortController = new AbortController()
     const signal = abortController.signal
@@ -107,7 +109,10 @@ expensePreview, so the information can be displayed in the view */
       abortController.abort()
     }
   }, [])
+  /**To determine the color, we define a method called indicateExpense, */
   const indicateExpense = (values) => {
+    /**A different color is returned if the current total is more than, less than, or equal to the
+monthly average. This gives the user a quick visual indicator of how they are faring in terms of incurring expenses per category for the current month */
     let color = '#4f83cc'
     if(values.total){
       const diff = values.total-values.average
@@ -137,6 +142,9 @@ desired. we render the total expenses for the current month, for the current dat
               </div>
               <Divider/>
               <div className={classes.categorySection}>
+                {/* We will set the values received from the backend to the state in an expenseCategories variable, and render its details in the view. This variable will
+contain an array, which we will iterate through in the view code to display three values for each category—the monthly average, the current month's total
+expenditure, and the difference between the two with an indication of whether money was saved or not */}
               {expenseCategories.map((expense, index) => {
                 return(<div key={index} style={{display: 'grid', justifyContent: 'center'}}> 
                 <Typography variant="h5" className={classes.catTitle} >{expense._id}</Typography>
@@ -144,13 +152,21 @@ desired. we render the total expenses for the current month, for the current dat
                 <div>
                 <Typography component="span" className={`${classes.catHeading} ${classes.val}`}>past average</Typography>
                 <Typography component="span" className={`${classes.catHeading} ${classes.val}`}>this month</Typography>
+                {/* we also show a computed value using these two values. */}
+                {/* ----------------------------------------------------- */}
+                {/* For each item in the array, we first render the category name, then the headings of the three values we will display. The third heading is rendered conditionally depending
+on whether the current total is more or less than the monthly average. */}
                 <Typography component="span" className={`${classes.catHeading} ${classes.val}`}>{expense.mergedValues.total && expense.mergedValues.total-expense.mergedValues.average > 0 ? "spent extra" : "saved"}</Typography>
                 </div>
                 <div style={{marginBottom: 3}}>
+                  {/* under each heading, we render the corresponding values for the monthly average, the current total—which will be zero if no value was returned—and then the difference
+between this average and the total. For the third value, we render the absolute value of the computed difference between the average and total values using Math.abs(). */}
                 <Typography component="span" className={classes.val} style={{color:'#595555', fontSize:'1.15em'}}>${expense.mergedValues.average}</Typography>
                 <Typography component="span" className={classes.val} style={{color:'#002f6c', fontSize:'1.6em', backgroundColor: '#eafff5', padding: '8px 0'}}>${expense.mergedValues.total? expense.mergedValues.total : 0}</Typography>
                 <Typography component="span" className={classes.val} style={{color:'#484646', fontSize:'1.25em'}}>${expense.mergedValues.total? Math.abs(expense.mergedValues.total-expense.mergedValues.average) : expense.mergedValues.average}</Typography>
                 </div>
+                {/* Based on this difference, we also render the divider under the category name with different colors to indicate whether money was saved, extra money was spent, or the
+same amount of money was spent. To determine the color, we define a method called indicateExpense, */}
                 <Divider style={{marginBottom:10}}/>
                 </div>) 
               })}

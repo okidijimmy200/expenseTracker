@@ -122,15 +122,24 @@ user's reference, so the aggregation is only performed on the expenses recorded 
 }
 
 // 2.
+/**we will use different features of MongoDB's aggregation framework to separately calculate the monthly
+expense averages for each category and the total spent in the current month per category, before combining the two results to return these two values associated with
+each category to the requesting client. */
 const expenseByCategory = async (req, res) => {
+  /**we first determine the dates required to find matching expenses, and then we perform the aggregations before returning the results in the response */
   const date = new Date(), y = date.getFullYear(), m = date.getMonth()
   const firstDay = new Date(y, m, 1)
   const lastDay = new Date(y, m + 1, 0)
 
   try {
+    /**we will use an aggregation pipeline containing a $facet with two sub-pipelines for calculating the monthly average per category and the total spent per
+category in the current month */
     let categoryMonthlyAvg = await Expense.aggregate([
       {
+        /**we take these two resulting arrays from the subpipelines to merge the results. */
         $facet: {
+          /**While projecting the output of the sub-pipelines in the $facet stage, we make sure that the keys of the result objects are _id and value in both output arrays, so they
+can be merged uniformly */
             average: [
               { $match : { recorded_by: mongoose.Types.ObjectId(req.auth._id) }},
               { $group : { _id : {category: "$category", month: {$month: "$incurred_on"}}, totalSpent:  {$sum: "$amount"} } },
@@ -153,14 +162,22 @@ const expenseByCategory = async (req, res) => {
         }
       },
       {
+        /**Once the faceted aggregation operations are done, we use a $setUnion on the results to combine the arrays. Then, we make the resulting
+combined array the new root document in order to run a $group aggregation on it to merge the values for the averages and totals per category. */
         $project: {
           overview: { $setUnion:['$average','$total'] },
         }
       },
       {$unwind: '$overview'},
+      /**The final output from this aggregation pipeline will contain an array with an object
+for each expense category. Each object in this array will have the category name as the
+_id value and a mergedValues object containing the average and total values for the
+category */
       {$replaceRoot: { newRoot: "$overview" }},
       { $group: { _id: "$_id", mergedValues: { $mergeObjects: "$value" } } }
     ]).exec()
+    /**this final output array generated from the aggregation is sent back in
+the response to the requesting client. */
     res.json(categoryMonthlyAvg)
   } catch (err){
     console.log(err)

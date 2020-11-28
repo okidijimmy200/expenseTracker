@@ -63,6 +63,7 @@ fetch method to make the request, similar to other API implementations */
     }
   }
 
+  /**We can use this API in the frontend with a fetch request. You can define a corresponding fetch method to make the request */
   const expenseByCategory = async (credentials, signal) => {
     try {
       let response = await fetch('/api/expenses/by/category', {
