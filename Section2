@@ -61,3 +61,30 @@ them an idea of how they are doing in comparison to previous expenditures. We ca
 tell them whether they are spending more or saving money in the current month for
 each category.
 
+Lecture 4:
+Displaying expense data charts::
+--Graphs and charts are time-tested mechanisms for visualizing complex data patterns
+--Victory to report expense patterns over time in graphical representations to the user.
+--Victory is an open source charting and data visualization library for React and React Native developed by Formidable. Different types of
+charts are available as modular components that can be customized and added to any React application
+
+*********yarn add victory*************
+
+--In the expense tracking application, we will add three different charts as a part of the
+interactive expense reports presented to the user. The three charts will include a
+scatter plot showing the expenses incurred in a given month, a bar chart showing the
+total expenses incurred per month in a given year, and a pie chart showing the
+average expenditure per category within a provided date range
+
+--For each chart, we will add a corresponding backend API to retrieve the relevant
+expense data and a React component to the frontend that will use the retrieved data
+to render the associated Victory chart.
+
+A month's expenses in a scatter plot::
+--We will show the expenses incurred by a user over a given month in a scatter plot.
+This will provide them with a visual overview of how their expenses pan out over a
+month
+--We plot the expense amounts versus the day of the month when it was incurred on
+the y axis and x axis, respectively. Hovering over a plotted bubble displays how much
+was spent on which date for that specific expense record.
+
