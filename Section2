@@ -24,4 +24,11 @@ database and return the computed results to be rendered in the frontend
 Previewing expenses in the current month::
 --After a user signs in to the application, we will show a preview of their current
 expenses, including their total expenditure for the current month and how much they
-spent on the current date and the day before
+spent on the current date and the day before.
+
+The current month preview API::
+--We will add an API to the backend that will return the preview of expenses incurred
+so far in the current month.
+--In the faceted aggregation operation result, each pipeline has its
+own field in the output document where the results are stored as an
+array of documents.

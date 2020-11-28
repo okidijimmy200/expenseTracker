@@ -65,11 +65,16 @@ Expense collection using these values will return matching expenses sorted by th
   }
 }
 //1.
+/**we will use MongoDB's aggregation framework to perform three sets of aggregations on the Expense collection and retrieve the total expenses for the current month, the current date, and
+the day before. */
 const currentMonthPreview = async (req, res) => {
+  /**we first determine the dates needed to find matching expenses, and then we perform the aggregations before returning the results in the response. */
   const date = new Date(), y = date.getFullYear(), m = date.getMonth()
+  /**We first determine the dates for the current month's first day and last day */
   const firstDay = new Date(y, m, 1)
   const lastDay = new Date(y, m + 1, 0)
 
+  /**the dates for today, tomorrow, and yesterday with the minutes and seconds set to zero. */
   const today = new Date()
   today.setUTCHours(0,0,0,0)
   
@@ -80,12 +85,20 @@ const currentMonthPreview = async (req, res) => {
   const yesterday = new Date()
   yesterday.setUTCHours(0,0,0,0)
   yesterday.setDate(yesterday.getDate()-1)
-  
+  /**NB: We will need these dates to specify the ranges for finding the matching expenses that were incurred in the current month, today, and yesterday. */
+  /**with these values and the signed-in user's ID reference, we construct the aggregation pipelines
+necessary to retrieve the total expenses for the current month, today, and yesterday. */
   try {
     let currentPreview = await Expense.aggregate([
       {
+        /**We group these three different aggregation pipelines using the $facet stage in
+MongoDB's aggregation framework */
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+/**For each aggregation pipeline, we first match the expenses using the date range values for the incurred_on field, and also the recorded_by field with the current
+user's reference, so the aggregation is only performed on the expenses recorded by the current user. */
           $facet: { month: [
                               { $match : { incurred_on : { $gte : firstDay, $lt: lastDay }, recorded_by: mongoose.Types.ObjectId(req.auth._id)}},
+                              /**Then, the matching expenses in each pipeline are grouped to calculate the total amount spent. */
                               { $group : { _id : "currentMonth" , totalSpent:  {$sum: "$amount"} } },
                             ],
                     today: [

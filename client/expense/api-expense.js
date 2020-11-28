@@ -43,6 +43,10 @@ string is attached to the request URL */
     }
   }
 
+  /**After the aggregation operations are completed, we access the computed results and
+compose the response to be sent back in the response to the requesting client. This
+API can be used in the frontend with a fetch request. You can define a corresponding
+fetch method to make the request, similar to other API implementations */
   const currentMonthPreview = async (credentials, signal) => {
     try {
       let response = await fetch('/api/expenses/current/preview', {

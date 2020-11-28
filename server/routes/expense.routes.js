@@ -4,6 +4,8 @@ import authCtrl from '../controllers/auth.controller'
 
 const router = express.Router()
 
+/**A GET request to this route at '/api/expenses/current/preview' will first ensure the requesting client is a signed-in user, and then it will invoke the
+currentMonthPreview controller method */
 router.route('/api/expenses/current/preview')
   .get(authCtrl.requireSignin, expenseCtrl.currentMonthPreview)
 
