@@ -24,6 +24,13 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
+/**We will implement a React component that calls the average expenses by category API to render the received array of average expenses incurred per category in a
+Victory Pie chart */
+
+//////////////////////////////////////
+/**When this component loads, we render a pie chart for the average expenses incurred per category in the given month. We also add two
+DatePicker components to allow users to select the desired date range and retrieve
+data for that range with a button click. */
 export default function Reports() {
     const classes = useStyles()
     const [error, setError] = useState('')
@@ -32,6 +39,7 @@ export default function Reports() {
     const date = new Date(), y = date.getFullYear(), m = date.getMonth()
     const [firstDay, setFirstDay] = useState(new Date(y, m, 1))
     const [lastDay, setLastDay] = useState(new Date(y, m + 1, 0))
+    /**we retrieve the initial average expense data with a useEffect hook when the component loads. */
     useEffect(() => {
         const abortController = new AbortController()
         const signal = abortController.signal
@@ -39,6 +47,7 @@ export default function Reports() {
           if (data.error) {
             setError(data.error)
           } else {
+            // With the data received from the backend and set in state,
             setExpenses(data)
           }
         })
@@ -91,9 +100,15 @@ export default function Reports() {
       
                 <div style={{width: 550, margin: 'auto'}}>
                 <svg viewBox="0 0 320 320">
-                
+                {/* We can add the following code in the component view to render a
+customized pie chart with individual text labels for each slice and a center label for
+the chart. */}
             <VictoryPie standalone={false} data={expenses.monthAVG} innerRadius={50} theme={VictoryTheme.material} 
                 labelRadius={({ innerRadius }) => innerRadius + 14 }
+                /**To render the pie chart with a separate center label, we place
+a VictoryPie component in an svg element, giving us the flexibility to customize
+the pie chart wrapping and a separate circular label using a VictoryLabel outside
+the pie chart code */
                 labelComponent={<VictoryLabel angle={0} style={[{
                     fontSize: '11px',
                     fill: '#0f0f0f'
@@ -103,6 +118,10 @@ export default function Reports() {
                     fill: '#013157'
                 }]} text={( {datum} ) => `${datum.x}\n $${datum.y}`}/>}
                  />
+                 {/* We pass the data to VictoryPie, define customized labels for each slice, and make
+the pie chart standalone so that the center label can be placed over the chart. This
+code plots and renders the pie chart against the data provided with the average
+expense displayed for each category. */}
                  <VictoryLabel
           textAnchor="middle"
           style={{ fontSize: 14, fill: '#8b8b8b' }}

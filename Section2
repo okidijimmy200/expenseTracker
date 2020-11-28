@@ -88,3 +88,62 @@ month
 the y axis and x axis, respectively. Hovering over a plotted bubble displays how much
 was spent on which date for that specific expense record.
 
+
+Lecture 5:
+The scatter plot data API::
+--We will add an API to the backend that will return the expenses incurred over a given
+month in the data format needed to render the scatter chart in the frontend.
+
+The MonthlyScatter component::
+--We will implement a React component that calls the scatter plot data API to render
+the received array of expenses incurred over a given month in a Victory Scatter chart.
+
+Total expenses per month in a year::
+--We will show the user a bar chart representing their total monthly expenses over a
+given year.
+--we populate the bar chart with the total expense value corresponding to each
+month in a given year. We add the monthly total value as labels to each bar
+--we will
+implement this feature by first adding a backend API that will return the total
+expenses incurred per month over a given year and in the format needed to render it
+in a Victory Bar chart.
+
+The yearly expenses API::
+--We will add an API to the backend that will return the total monthly expenses
+incurred over a given year in the data format needed to render the bar chart in the
+frontend.
+
+The YearlyBar component::
+--We will implement a React component that calls the yearly expenses data API to
+render the received array of expenses incurred monthly over a given year in a Victory
+Bar chart.
+
+--We pass the data to VictoryBar and also define the categories for the x axis values using the month strings so that all months of the year are displayed on the chart, even
+if a corresponding total value does not exist yet. We render individual labels for each bar to show the total expense value for each month. To map the x axis value with the
+correct month string, we specify it in the x prop for the VictoryBar component.
+
+--This code plots and renders the bar chart against the data provided, with the monthly expense totals mapped for each month. In the next section, we will follow similar
+steps to add a pie chart to graphically display the average expenses per category in a given date range.
+
+
+Lecture 6:
+Average expenses per category in a pie chart::
+--We can render a pie chart showing how much users spend on average per expense category over a given period of time. This will help users visualize which categories
+consume more or less of their wealth over time.
+
+--We populate the pie chart with each category and its average expenditure value, showing the corresponding name and amount as labels. In the following sections, we
+will implement this feature by first adding a backend API that will return the average expenses per category over the given date range and in the format needed to render it
+in a Victory Pie chart.
+
+The average expenses by category API::
+
+The CategoryPie component::
+--We will implement a React component that calls the average expenses by category API to render the received array of average expenses incurred per category in a
+Victory Pie chart.
+
+--We have added three different Victory charts to the application based on the userrecorded
+expense data, which was processed as needed and retrieved from the
+database in the backend
+
+
+

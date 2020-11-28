@@ -80,6 +80,8 @@ fetch method to make the request, similar to other API implementations */
     }
   }
   
+  /**We can use averageCategoriess API in the frontend with a fetch request. You can define a
+corresponding fetch method to make the request */
   const averageCategories = async (params, credentials, signal) => {
     const query = queryString.stringify(params)
     try {
@@ -96,6 +98,8 @@ fetch method to make the request, similar to other API implementations */
       console.log(err)
     }
   }
+  /**We can use yearlyExpense API in the frontend with a fetch request. You can define a
+corresponding fetch method */
   const yearlyExpenses = async (params, credentials, signal) => {
     const query = queryString.stringify(params)
     try {
@@ -112,6 +116,8 @@ fetch method to make the request, similar to other API implementations */
       console.log(err)
     }
   }
+  /**We can use this API in the frontend with a fetch request. You can define a
+corresponding fetch method to make the request */
   const plotExpenses = async (params, credentials, signal) => {
     const query = queryString.stringify(params)
     try {

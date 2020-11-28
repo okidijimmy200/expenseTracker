@@ -14,12 +14,18 @@ the expenseByCategory controller method */
 router.route('/api/expenses/by/category')
   .get(authCtrl.requireSignin, expenseCtrl.expenseByCategory)
 
+  /**A GET request to this route at '/api/expenses/plot' will first ensure that the requesting client is a signed-in user, and then it will invoke
+the plotExpenses controller method */
 router.route('/api/expenses/plot')
   .get(authCtrl.requireSignin, expenseCtrl.plotExpenses)
 
+  /**A GET request to this route at '/api/expenses/category/averages' will first ensure that the requesting client is a signed-in user, and then it will invoke
+the averageCategories controller method. */
 router.route('/api/expenses/category/averages')
   .get(authCtrl.requireSignin, expenseCtrl.averageCategories)
 
+  /**A GET request to this route at '/api/expenses/yearly' will first ensure that the requesting client is a signed-in user, and then it will invoke
+the yearlyExpenses controller method */
 router.route('/api/expenses/yearly')
   .get(authCtrl.requireSignin, expenseCtrl.yearlyExpenses)
 

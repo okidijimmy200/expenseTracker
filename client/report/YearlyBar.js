@@ -15,6 +15,8 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
+/**When this component loads, we render a bar chart for expenses in the current year. We also add a DatePicker component to allow users to
+select the desired year and retrieve data for that year with a button click. */
 export default function Reports() {
     const classes = useStyles()
     const [error, setError] = useState('')
@@ -24,6 +26,8 @@ export default function Reports() {
     const monthStrings = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
     useEffect(() => {
+      /**retrieve the initial yearly expense data with a useEffect hook
+when the component loads. */
         const abortController = new AbortController()
         const signal = abortController.signal
         yearlyExpenses({year: year.getFullYear()},{t: jwt.token}, signal).then((data) => {
@@ -57,6 +61,8 @@ export default function Reports() {
                 animateYearScrolling
                 variant="inline"/>
           </MuiPickersUtilsProvider>
+          {/* With the data received from the backend and set in the state, we can render it in a
+Victory Bar chart */}
           <VictoryChart
                 theme={VictoryTheme.material}
                 domainPadding={10}
@@ -69,6 +75,10 @@ export default function Reports() {
                     }}
                     style={{ data: { fill: "#69f0ae", width: 20 }, labels: {fill: "#01579b"} }}
                     data={yearlyExpense.monthTot}
+/**The month values returned from the database are zero-based indices, so we define our own array of month name strings to map to these indices. To render the bar chart,
+we place a VictoryBar component in a VictoryChart component, giving us the flexibility to customize the bar chart wrapper, and also the y axis with
+a VictoryAxis component, which is added without any props so that a y axis is not
+displayed at all */
                     x={monthStrings['x']}
                     domain={{x: [0, 13]}}
                     labels={({ datum }) => `$${datum.y}`}

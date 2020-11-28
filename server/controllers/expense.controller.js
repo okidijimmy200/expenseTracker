@@ -188,17 +188,27 @@ the response to the requesting client. */
 }
 
 // 3.a
+/**request will also take the values of the given date range in URL query parameters, which will be used in the
+averageCategories method to determine the dates of the first day and the last day
+of the provided range. */
 const averageCategories = async (req, res) => {
   const firstDay = new Date(req.query.firstDay)
   const lastDay = new Date(req.query.lastDay)
 
   try {
+    /**We will need these dates to specify the range for finding the matching expenses that were incurred in the specified date range and recorded by the
+authenticated user while aggregating the expense averages per category into the data format needed for the chart. */
     let categoryMonthlyAvg = await Expense.aggregate([
+      /**We run an aggregation operation that finds the matching expenses, groups the expenses by category to first calculate the total and then the average, and returns an
+output containing the values in the format needed for the y and x values of the pie chart */
       { $match : { incurred_on : { $gte : firstDay, $lte: lastDay }, recorded_by: mongoose.Types.ObjectId(req.auth._id)}},
       { $group : { _id : {category: "$category"}, totalSpent:  {$sum: "$amount"} } },
       { $group: { _id: "$_id.category", avgSpent: { $avg: "$totalSpent"}}},
+      /**The final result of the aggregation contains an array of objects, with each object containing an x attribute and a y attribute. The x attribute contains the category name
+as the value. The y attribute contains the corresponding average expense amount for that category. */
       { $project: {x: '$_id', y: '$avgSpent'}}
     ]).exec()
+    /**This final output array generated from the aggregation is sent back in the response to the requesting client. */
     res.json({monthAVG:categoryMonthlyAvg})
   } catch (err){
     console.log(err)
@@ -209,16 +219,24 @@ const averageCategories = async (req, res) => {
 }
 
 // 3.b
+/** yearlyExpenses The request will also take the value of the given year in a URL query parameter, which will be used in
+the yearlyExpenses method to determine the dates of the first day and the last day of the provided year. */
 const yearlyExpenses = async (req, res) => {
   const y = req.query.year
   const firstDay = new Date(y, 0, 1)
   const lastDay = new Date(y, 12, 0)
   try {
+    /**We will need these dates to specify the range for finding the matching expenses that were incurred in the specified year and recorded by the
+authenticated user while aggregating the total monthly expenses into the data format needed for the chart. */
     let totalMonthly = await Expense.aggregate(  [
+      // We run an aggregation operation that finds the matching expenses,
       { $match: { incurred_on: { $gte : firstDay, $lt: lastDay }, recorded_by: mongoose.Types.ObjectId(req.auth._id) }},
+/**groups the expenses by month to calculate the total, and returns an output containing the values in the format needed for the y axis and x axis values of the bar chart. */
+/**The x attribute contains the month value from the incurred_on date. The y attribute contains the corresponding total expense amount for that month. */
       { $group: { _id: {$month: "$incurred_on"}, totalSpent:  {$sum: "$amount"} } },
       { $project: {x: '$_id', y: '$totalSpent'}}
     ]).exec()
+    /**The final result of the aggregation contains an array of objects, with each object containing an x attribute and a y attribute. */
     res.json({monthTot:totalMonthly})
   } catch (err){
     console.log(err)
@@ -229,16 +247,25 @@ const yearlyExpenses = async (req, res) => {
 }
 
 //3.c
+/**request will also take the value of the given month in a URL query parameter, which will be used in the plotExpenses
+method to determine the dates of the first day and the last day of the provided month. */
 const plotExpenses = async (req, res) => {
+  /**We will need these dates to specify the range for finding the matching expenses that were incurred in the specified month and recorded by the authenticated
+user while aggregating the expenses into the data format needed for the chart. */
   const date = new Date(req.query.month), y = date.getFullYear(), m = date.getMonth()
   const firstDay = new Date(y, m, 1)
   const lastDay = new Date(y, m + 1, 0)
 
   try {
+    /**We run a simple aggregation operation that finds the matching expenses and returns an output containing the values in the format needed for the y axis and x axis values
+of the scatter chart */
     let totalMonthly = await Expense.aggregate(  [
       { $match: { incurred_on: { $gte : firstDay, $lt: lastDay }, recorded_by: mongoose.Types.ObjectId(req.auth._id) }},
+      /**The final result of the aggregation contains an array of objects, with each object containing an x attribute and a y attribute. The x attribute contains
+the day of the month value from the incurred_on date. The y attribute contains the corresponding expense amount. */
       { $project: {x: {$dayOfMonth: '$incurred_on'}, y: '$amount'}}
     ]).exec()
+    /**This final output array generated from the aggregation is sent back in the response to the requesting client. */
     res.json(totalMonthly)
   } catch (err){
     console.log(err)
