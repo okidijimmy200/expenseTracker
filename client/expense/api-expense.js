@@ -1,6 +1,10 @@
 import queryString from 'query-string'
+
+/**To fetch this API in the frontend, we will add a corresponding create method in api-expense.js. */
 const create = async (credentials, expense) => {
     try {
+      /**This fetch method will be used in the frontend component that will display a form
+where the user can enter details of the new expense and save it on the application */
       let response = await fetch('/api/expenses/', {
         method: 'POST',
         headers: {

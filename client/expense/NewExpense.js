@@ -45,7 +45,9 @@ const useStyles = makeStyles(theme => ({
     marginLeft:'10px'
   }
 }))
-
+/**Signed-in users on this expense tracking application will interact with a form view in order to enter details of a new expense record. This form view will be rendered in the
+NewExpense component, which will allow users to create a new expense by entering the expense title, the amount spent, the category of the expense, the date-time of
+when the expense was incurred, and any additional notes. */
 export default function NewExpense() {
   const classes = useStyles()
   
@@ -62,6 +64,7 @@ export default function NewExpense() {
   const handleChange = name => event => {
     setValues({...values, [name]: event.target.value })
   }
+  /**handleDateChange method */
   const handleDateChange = date => {
     setValues({...values, incurred_on: date })
   }
@@ -101,7 +104,13 @@ export default function NewExpense() {
           <TextField id="category" label="Category" className={classes.textField} value={values.category} onChange={handleChange('category')} margin="normal"/><br/>
           <br/>
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            {/* date-time input for the Incurred on
+timing. Clicking on this field will render a date-time picker widget */}
                 <DateTimePicker
+                /**This widget will render options to pick a year, month, date, and time along with a
+TODAY button to set the current time as the selected value. When the user is done
+picking a date-time, we will capture the value with the handleDateChange method
+and set it to state with the other expense-related values collected from the form */
                     label="Incurred on"
                     className={classes.textField}
                     views={["year", "month", "date"]}

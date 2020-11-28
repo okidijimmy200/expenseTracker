@@ -35,3 +35,34 @@ details of each expense record.
 expense, such as a title, the amount, category, and date when it was incurred, along
 with a reference to the user who created the record.
 
+Lecture 2:
+Creating a new expense record::
+--In order to create a new expense record on the application, we will need to integrate a
+full-stack slice that allows the user to fill out a form view in the frontend, and then
+save the entered details to a new expense document in the database in the
+backend.
+
+The create expense API::
+--A POST request to this route at /api/expenses will first ensure that the requesting
+user is signed in with the requireSignin method from the auth controllers, before
+invoking the create method to add a new expense record in the database
+
+--To fetch this API in the frontend, we will add a corresponding create method in api-expense.js,
+
+The NewExpense component::
+--Signed-in users on this expense tracking application will interact with a form view in
+order to enter details of a new expense record. This form view will be rendered in the
+NewExpense component, which will allow users to create a new expense by entering
+the expense title, the amount spent, the category of the expense, the date-time of
+when the expense was incurred, and any additional notes.
+
+--Signed-in users on this expense tracking application will interact with a form view in
+order to enter details of a new expense record. This form view will be rendered in the
+NewExpense component, which will allow users to create a new expense by entering
+the expense title, the amount spent, the category of the expense, the date-time of
+when the expense was incurred, and any additional notes.
+
+--To implement this date-time picker for the form, we will use Material-UI Pickers
+along with a date management library
+
+************8yarn add @material-ui/pickers @date-io/date-fns@1.x date-fns***************

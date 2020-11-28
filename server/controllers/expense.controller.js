@@ -5,6 +5,9 @@ import mongoose from 'mongoose'
 
 const create = async (req, res) => {
   try {
+    /**create method, we set the recorded_by field to the user currently signed in,
+before using the expense data provided in the request body to save the new expense
+in the Expense collection in the database */
     req.body.recorded_by = req.auth._id
     const expense = new Expense(req.body)
     await expense.save()
