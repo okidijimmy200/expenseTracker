@@ -1,0 +1,27 @@
+Lecture 1:
+Visualizing expense data over time::
+--Aside from allowing users to keep logs of their expenses, the MERN Expense Tracker
+application will process the collected expense data to give users insights into their
+spending habits over time. We will implement simple data aggregation and
+visualization features to demonstrate how the MERN stack can accommodate such
+requirements in any full-stack application. To enable these features, we will utilize
+MongoDB's aggregation framework and also the React-based charting and data
+visualization library—Victory—by Formidable
+
+--In the following sections, we will first add features to summarize a user's expenses in
+the current month and also show how they are doing compared to previous months.
+Then, we will add different Victory charts to give them a visual representation of
+their spending patterns over a month, and a year, and per expense category.
+
+Summarizing recent expenses::
+--When a user signs in to their account on the application, they will see a preview of the
+expenses they incurred so far in the current month. They will also see a comparison of
+how much more or less they are spending in each category in comparison to the
+averages from previous months. To implement these features, we will have to add
+backend APIs that will run aggregation operations on the relevant expense data in the
+database and return the computed results to be rendered in the frontend
+
+Previewing expenses in the current month::
+--After a user signs in to the application, we will show a preview of their current
+expenses, including their total expenditure for the current month and how much they
+spent on the current date and the day before
