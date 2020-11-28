@@ -107,3 +107,12 @@ Modifying an expense record::
 --Users on MERN Expense Tracker will be able to modify the expenses they have
 already recorded on the application by either updating the details of an expense or
 deleting the expense record altogether
+
+Lecture 4:
+Rendering the edit form and delete option::
+--We will render the edit expense form and delete option in the Expenses component view. For each expense record rendered in a Material-UI ExpansionPanel
+component in this view, we will add form fields in the ExpansionPanelDetails section, with each field pre-populated with the corresponding expense detail value.
+
+--Users will be able to interact with these form fields to change the values and then
+click on the Update button to save the changes to the database. We will add these
+form fields in the view along with the Update button and delete option

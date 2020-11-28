@@ -11,6 +11,9 @@ import DialogTitle from '@material-ui/core/DialogTitle'
 import auth from '../auth/auth-helper'
 import {remove} from './api-expense.js'
 
+/**The DeleteExpense component added to the edit form renders a Delete button and
+uses the expense object passed as a prop to delete the associated expense from the
+database by calling the delete expense API */
 export default function DeleteExpense(props) {
   const [open, setOpen] = useState(false)
   

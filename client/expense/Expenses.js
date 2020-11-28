@@ -130,7 +130,11 @@ the state accordingly */
             }
         })
     }
+    /**When the user interacts with these fields to update the values, we invoke the handleChange method with the corresponding
+index of the given expense in the expenses array, the name of the field, and the changed value */
     const handleChange = (name, index) => event => {
+      /**The expense object at the given index in the expenses array is updated with the changed value of the specified field and set to state. This will render the view with the
+latest values as the user is updating the edit form */
         const updatedExpenses = [...expenses]
         updatedExpenses[index][name] = event.target.value
         setExpenses(updatedExpenses)
@@ -140,7 +144,9 @@ the state accordingly */
         updatedExpenses[index].incurred_on = date
         setExpenses(updatedExpenses)
       }
+      // When the user is done making changes and clicks on the Update button, we will invoke the clickUpdate method,
     const clickUpdate = (index) => {
+      // In this clickUpdate method, we send the updated expense to the backend in a fetch call to an edit expense API
         let expense = expenses[index]
         update({
             expenseId: expense._id
@@ -226,6 +232,9 @@ the panel, we will give the user the option to edit details of the expense or de
 deleting the expense record altogether they will receive these modification options in the expenses list after expanding to see details of an individual expense in the list */}
           <ExpansionPanelDetails style={{display: 'block'}}>
           <div>
+            {/* Users will be able to interact with these form fields to change the values and then
+click on the Update button to save the changes to the database. We will add these
+form fields in the view along with the Update button and delete option */}
               <TextField label="Title" className={classes.textField} value={expense.title} onChange={handleChange('title', index)} margin="normal"/>
              <TextField label="Amount ($)" className={classes.textField} value={expense.amount} onChange={handleChange('amount', index)} margin="normal" type="number"/>
           </div>
