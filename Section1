@@ -116,3 +116,9 @@ component in this view, we will add form fields in the ExpansionPanelDetails sec
 --Users will be able to interact with these form fields to change the values and then
 click on the Update button to save the changes to the database. We will add these
 form fields in the view along with the Update button and delete option
+
+Lecture 5:
+Editing and deleting an expense in the backend::
+--In order to complete the edit and delete expense operations initiated by signed-in
+users from the frontend, we need to have the corresponding APIs in the backend.
+

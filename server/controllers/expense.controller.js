@@ -20,9 +20,14 @@ in the Expense collection in the database */
     })
   }
 }
-
+ /**The :expenseId parameter in the route URL, /api/expenses/:expenseId, will
+invoke the expenseByID controller method. It retrieves the expense from the database and
+attaches it to the request object to be used in the next method. */
 const expenseByID = async (req, res, next, id) => {
     try {
+      /**The expense object retrieved that is from the database will also contain the name and
+ID details of the user who recorded the expense, as we specified in
+the populate() method */
       let expense = await Expense.findById(id).populate('recorded_by', '_id name').exec()
       if (!expense)
         return res.status('400').json({
@@ -213,12 +218,22 @@ const plotExpenses = async (req, res) => {
   }
 }
 
+/**Once it has been confirmed that the user trying to update the expense is the one who
+recorded it and if it is a PUT request, then the update method is invoked next to
+update the expense document with the new changes in the Expense collection */
   const update = async (req, res) => {
     try {
+      // retrieves the expense details from req.expense,
       let expense = req.expense
+// then uses the lodash module to extend and merge the changes that came in the request body to update the expense data.
       expense = extend(expense, req.body)
+      /**Before saving this updated expense to the database, the updated field is populated with the current date to reflect the last updated
+timestamp. */
       expense.updated = Date.now()
+
       await expense.save()
+      /**On the successful save of this update, the updated expense object is sent
+back in the response. */
       res.json(expense)
     } catch (err) {
       return res.status(400).json({
@@ -227,6 +242,8 @@ const plotExpenses = async (req, res) => {
     }
   }
   
+/**If it is a DELETE request instead of a PUT request, the remove method is invoked instead in order to delete the specified expense document from the collection in the
+database. */
 const remove = async (req, res) => {
     try {
       let expense = req.expense
@@ -239,6 +256,7 @@ const remove = async (req, res) => {
     }
 }
 
+/**we verify that this expense object was actually recorded by the signed-in user with the hasAuthorization method */
 const hasAuthorization = (req, res, next) => {
   const authorized = req.expense && req.auth && req.expense.recorded_by._id == req.auth._id
   if (!(authorized)) {
@@ -246,6 +264,9 @@ const hasAuthorization = (req, res, next) => {
       error: "User is not authorized"
     })
   }
+  /**Once it has been confirmed that the user trying to update the expense is the one who
+recorded it and if it is a PUT request, then the update method is invoked next to
+update the expense document with the new changes in the Expense collection */
   next()
 }
 
