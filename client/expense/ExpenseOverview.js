@@ -75,6 +75,8 @@ export default function Home(){
   const [expensePreview, setExpensePreview] = useState({month:0, today:0, yesterday:0})
   const [expenseCategories, setExpenseCategories] = useState([])
   const jwt = auth.isAuthenticated()
+  /**To retrieve the expense totals and render these in the view, we can call the current
+month preview API either in a useEffect hook or when a button is clicked on. */
   useEffect(() => {
       const abortController = new AbortController()
       const signal = abortController.signal
@@ -82,6 +84,8 @@ export default function Home(){
         if (data.error) {
           setRedirectToSignin(true)
         } else {
+          /**Once the data is received from the backend, we set it to state in a variable called
+expensePreview, so the information can be displayed in the view */
           setExpensePreview(data)
         }
       })
@@ -118,6 +122,10 @@ export default function Home(){
   }
     return (
         <Card className={classes.card}>
+          {/* . In the view of the component, we use this state variable to compose an interface with these details as
+desired. we render the total expenses for the current month, for the current date, and for the day before. */}
+{/* ---------------------------- */}
+{/* These values are only rendered if the corresponding value is returned in the aggregation results from the backend; otherwise, we render a "0." */}
             <Typography variant="h4" className={classes.title2} color="textPrimary" style={{textAlign:'center'}}>You've spent</Typography>
             <div style={{display:'flex', justifyContent:'center', alignItems:'center'}}>
                 <Typography component="span" className={classes.totalSpent}>${expensePreview.month ? expensePreview.month.totalSpent : '0'} <span style={{display: 'block', fontSize:'0.3em'}}>so far this month</span></Typography>

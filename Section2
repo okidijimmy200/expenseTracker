@@ -32,3 +32,8 @@ so far in the current month.
 --In the faceted aggregation operation result, each pipeline has its
 own field in the output document where the results are stored as an
 array of documents.
+
+Lecture 2:
+Rendering the preview of current expenses::
+--To retrieve the expense totals and render these in the view, we can call the current
+month preview API either in a useEffect hook or when a button is clicked on.
